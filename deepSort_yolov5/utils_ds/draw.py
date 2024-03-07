@@ -5,7 +5,7 @@ import cv2
 
 palette = (2 ** 11 - 1, 2 ** 15 - 1, 2 ** 20 - 1)
 # 车辆统计
-global car_count
+car_count = 0
 car_count_list = []
 temp = 0
 
@@ -66,8 +66,8 @@ def calculate_distance(bbox, identities=None, line=None):
         #         car_count_list.append(id)
         # 任意划线，算物体中心点到划线的直线距离
         d = (A * cx + B * cy + C) / math.sqrt(math.pow(A,2) + math.pow(B,2))
-        if d < 0 and max(line[1],line[3]) > cy > min(line[1],line[3]) and max(line[0],line[2]) > cx > min(line[0],line[2]):
-            if car_count_list.__contains__(id):
+        if d < 0 and (max(line[1],line[3]) > cy > min(line[1],line[3]) or max(line[0],line[2]) > cx > min(line[0],line[2])):
+            if not car_count_list.__contains__(id):
                 car_count_list.append(id)
     car_count = temp + len(car_count_list)
     if len(car_count_list) > 1000:
